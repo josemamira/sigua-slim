@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIGUA slim Modal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">	
+ 
+	<style>	
+	</style>
+  </head>
+
+  <body>
+	  
+
+<center><a href="#miMapaModal" id="elCodigo" data-value="" role="button" class="btn btn-primary" data-toggle="modal">Abrir tab en modal</a>
+</center>
+
+<div class="modal" id="miMapaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+				Módulo de impresión
+            </div><!-- fin modal-header -->
+
+            <div class="modal-body">
+				
+				
+ <div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#print1">
+        Impresión edificio</a>
+      </h4>
+    </div>
+    <div id="print1" class="panel-collapse collapse in">
+      <div class="panel-body">
+		  
+		  Tab de edificios
+		  <ul class="nav nav-tabs" id="tab_edi">
+			  <li class="active"><a data-target="#edi1_tab" data-toggle="tab">1.Edificios</a></li>
+			  <li><a data-target="#edi2_tab" data-toggle="tab">2.Configuracion</a></li>
+			  <li><a data-target="#edi3_tab" data-toggle="tab">3.Salida</a></li>
+		  </ul>
+		  <div class="tab-content">
+			  <div class="tab-pane active" id="edi1_tab">listado edificios</div>
+			  <div class="tab-pane" id="edi2_tab">configuracion: denominación/codigo, plantas</div>
+			  <div class="tab-pane" id="edi3_tab">contenido salida</div>
+		  </div>
+		  
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#print2">
+        Impresión dpto/estancia</a>
+      </h4>
+    </div>
+    <div id="print2" class="panel-collapse collapse">
+      <div class="panel-body">
+
+		  Tab de dpto/unidad
+		  <ul class="nav nav-tabs" id="tab_dpt">
+			  <li class="active"><a data-target="#dpt1_tab" data-toggle="tab">1.Dpto/Unidad</a></li>
+			  <li><a data-target="#dpt2_tab" data-toggle="tab">2.Configuracion</a></li>
+			  <li><a data-target="#dpt3_tab" data-toggle="tab">3.Salida</a></li>
+		  </ul>
+		  <div class="tab-content">
+			  <div class="tab-pane active" id="dpt1_tab">listado dpto/unidades</div>
+			  <div class="tab-pane" id="dpt2_tab">configuracion: dpt-plantas, deno/codigo, usos(si/no)</div>
+			  <div class="tab-pane" id="dpt3_tab">contenido salida</div>
+		  </div>
+		  
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#print3">
+        Impresión estancia</a>
+      </h4>
+    </div>
+    <div id="print3" class="panel-collapse collapse">
+      <div class="panel-body">
+
+		  Tab de estancia
+		  <ul class="nav nav-tabs" id="tab_est">
+			  <li class="active"><a data-target="#est1_tab" data-toggle="tab">1.estancia</a></li>
+			  <li><a data-target="#est2_tab" data-toggle="tab">2.Configuracion</a></li>
+			  <li><a data-target="#est3_tab" data-toggle="tab">3.Salida</a></li>
+		  </ul>
+		  <div class="tab-content">
+			  <div class="tab-pane active" id="est1_tab">indicar estancia</div>
+			  <div class="tab-pane" id="est2_tab">configuracion: deno/codigo</div>
+			  <div class="tab-pane" id="est3_tab">contenido salida</div>
+		  </div>		  
+		  
+      </div>
+    </div>
+  </div>
+</div> 				
+				
+
+
+
+            </div><!-- fin body -->
+ 
+            <div class="modal-footer">		
+            	esto es el pie
+				                
+            </div>            
+        </div>
+      </div>
+    </div>
+
+	<script>
+		//
+	</script>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script> 
+	
+
+    
+  </body>
+</html>
+
+
+
+
+
+
+

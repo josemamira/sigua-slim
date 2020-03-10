@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIGUA slim</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+	<link rel="stylesheet" href="assets/js/bootstrap-3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/js/font-awesome-4.3.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="assets/js/leaflet-0.7.2/leaflet.css">
+	<link rel="stylesheet" href="assets/css/app.css"> 
+
+
+
+  </head>
+
+  <body>
+	  
+	  
+	  
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">SigUA</a>        
+      </div>
+
+      
+      <div class="navbar-collapse collapse">
+		  <!-- Formulario de busqueda -->	
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group has-feedback">
+                <input id="searchbox" type="text" placeholder="Buscar" class="form-control">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+          </form>
+ 		  <!-- Formulario de busqueda -->  
+      
+
+			<ul class="nav navbar-nav">
+			  <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="$('#aboutModal').modal('show'); return false;"><i class="fa fa-question-circle" style="color: white"></i>&nbsp;&nbsp;Ayuda</a></li>
+			</ul>
+			<p class="text-center">
+				<div class="btn-group hide" data-toggle="buttons" id="plantas">
+					<label class="btn btn-default active"> <input type="radio" name="planta" id="PB" value="PB" checked="true"> PB  </label>
+					<label class="btn btn-default"> <input type="radio" name="planta" id="P1" value="P1"> P1  </label>
+					<label class="btn btn-default"> <input type="radio" name="planta" id="P2" value="P2"> P2  </label>
+					<label class="btn btn-default"> <input type="radio" name="planta" id="P3" value="P3"> P3  </label>
+					<label class="btn btn-default"> <input type="radio" name="planta" id="P4" value="P4"> P4  </label>
+					<label class="btn btn-default"> <input type="radio" name="planta" id="PS" value="PS"> PS  </label>
+				</div>
+			</p>
+      </div>
+      <!--/.navbar-collapse -->   
+    </div>
+
+	<!-- MAPA -->
+    <div id="map"></div>	  
+	  
+
+    
+    <!-- 
+    <div class="modal fade" id="myModal2"  tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">
+              Mensaje de error
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>Ubicación desconocida en Sigua.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+     -->
+
+
+
+	<script src="assets/js/jquery-1.11.0.min.js"></script>
+	<script src="assets/js/bootstrap-3.1.1/js/bootstrap.min.js"></script> 
+    <script src="assets/js/handlebars.js"></script> 
+    <script src="assets/js/typeahead/typeahead.bundle.min.js"></script>	
+	<script src="assets/js/leaflet-0.7.2/leaflet.js"></script>	
+	<script src="assets/js/capas.js"></script>  
+	<script src="assets/js/main.js"></script>   
+    <script src="assets/js/autocomplete_sigua.js"></script>
+    
+    
+  </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editor panoramas para Sigua (PB)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <!-- Leaflets -->
+    <link rel="stylesheet" href="../leaflet-0.7.2/leaflet.css">
+	<script src="../leaflet-0.7.2/leaflet.js"></script>	
+	<link rel="stylesheet" href="../js/Leaflet.draw/leaflet.draw.css" />	
+	<script src="../js/Leaflet.draw/leaflet.draw.js"></script>
+   <!-- jquery -->
+   <script src="../js/jquery-1.11.0.min.js"></script>
+
+   <!-- github -->
+    <script src="../js/panos/underscore-min.js"></script>
+	<script src="../js/panos/github.js"></script>	
+	<!-- leaflet sidebar -->
+	<link rel="stylesheet" href="../leaflet-sidebar/L.Control.Sidebar.css">
+	<script src="../leaflet-sidebar/L.Control.Sidebar.js"></script>
+   <!-- cyclotron: panorama viewer -->    
+	<script type="text/javascript" src="../js/panos/jquery.cyclotron.js"></script>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="../bootstrap-3.1.1/css/bootstrap.min.css">
+	<script src="../bootstrap-3.1.1/js/bootstrap.min.js"></script>   
+	<!-- font Awesome -->
+	<link rel="stylesheet" href="../font-awesome-4.3.0/css/font-awesome.min.css"> 
+	<!-- botonera -->
+	<!--<link rel="stylesheet" href="libs/Leaflet.EasyButton-master/src/easy-button.css">
+	<script src="libs/Leaflet.EasyButton-master/src/easy-button.js"></script>
+	<script src="libs/leaflet-button-control.js"></script>-->
+
+	
+
+	<style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+        }
+
+		#base{
+		  padding:10px;
+		  background:#eee;
+		}
+	</style>
+
+
+</head>
+<body>
+
+	<div id="map">
+        <div class="leaflet-bottom leaflet-right">
+			<div class="btn-group hide" data-toggle="buttons" id="plantas">
+				<label class="btn btn-default active"> <input type="radio" name="planta" id="PB" value="PB" checked="true"> PB  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P1" value="P1"> P1  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P2" value="P2"> P2  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P3" value="P3"> P3  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P4" value="P4"> P4  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="PS" value="PS"> PS  </label>
+			</div>
+            <span id="studentsCount" class="lblStyle span3"> Jose Manuel Mira </span>
+        </div>	
+	</div>
+
+<!--
+ <div class="span9" style="height:100%">
+    <div id="map">
+        <div class="leaflet-bottom leaflet-right">
+			<div class="btn-group hide" data-toggle="buttons" id="plantas">
+				<label class="btn btn-default active"> <input type="radio" name="planta" id="PB" value="PB" checked="true"> PB  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P1" value="P1"> P1  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P2" value="P2"> P2  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P3" value="P3"> P3  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="P4" value="P4"> P4  </label>
+				<label class="btn btn-default"> <input type="radio" name="planta" id="PS" value="PS"> PS  </label>
+			</div>
+            <span id="studentsCount" class="lblStyle span3"> Jose Manuel Mira </span>
+        </div>
+    </div>
+</div>
+
+-->
+
+	
+	<div id="sidebar">	
+		<!-- botonera de plantas-->
+		<!--<div>
+        <p class="text-center">
+        <div class="btn-group hide" data-toggle="buttons" id="plantas">
+			<label class="btn btn-default active"> <input type="radio" name="planta" id="PB" value="PB" checked="true"> PB  </label>
+			<label class="btn btn-default"> <input type="radio" name="planta" id="P1" value="P1"> P1  </label>
+			<label class="btn btn-default"> <input type="radio" name="planta" id="P2" value="P2"> P2  </label>
+			<label class="btn btn-default"> <input type="radio" name="planta" id="P3" value="P3"> P3  </label>
+			<label class="btn btn-default"> <input type="radio" name="planta" id="P4" value="P4"> P4  </label>
+			<label class="btn btn-default"> <input type="radio" name="planta" id="PS" value="PS"> PS  </label>
+	    </div>
+	    </p>	
+	    </div>		-->
+	
+		<h2>Digitalizacion</h2>
+		
+		<p>
+		<div id="contenidoPano" >				
+			<h4>PASO 1: Indicar descripci&oacute;n</h4>
+			<input type="text" id="formTexto" name="textline" size="30" value=""><br>
+			<h4>PASO 2: Seleccionar panorama</h4>
+			Seleccionar un fichero para el panorama:<br>
+			<i>(Ancho/height m&aacute;ximo de 330 p&iacute;xeles)</i><br>
+							
+			<input type='file' id="panoFile" />
+			<img id="img" class="hidden" width=100 src="" />
+			 <textarea class="hidden" rows="3" id="base" cols="25"></textarea> 
+			 <button id="buttonSubirImagenGithub" class="btn btn-primary hidden" onClick="subirImagenGithub( $('#base').val() );" type="button">Subir imagen a Github</button>
+			<input type="text" class="hidden" id="formFileImageGithub">	
+				
+				
+			<h4>PASO 3: Indicar posici&oacute;n </h4>
+			<img src="../img/ico_draw.png">
+		</div>
+		</p>
+	</div>
+	
+
+	<!-- inicio modal -->
+	<div class="modal fade" id="myModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"><div id="tituloModal"></div></h4>
+	      </div>
+	      <div class="modal-body">
+	        <p><div id="contenido"></div></p>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div>
+	<!-- fin modal -->
+
+
+
+
+	
+<script type="text/javascript">
+	/*
+		// OpenStreetMap layer
+		var map = L.map('map').setView([38.385028, -0.513894], 15);
+		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+			osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}).addTo(map);
+			//map = new L.Map('map', {layers: [osm], center: new L.LatLng(-37.7772, 175.2756), zoom: 15 });
+	*/
+		var servidor = "https://www.sigua.ua.es";
+		var servidorTiles = "https://www.sigua.ua.es";
+		var siguaUrl= servidor+'/cgi-bin/siguawms';
+		var siguaAttrib='Datos mapa &copy; <a href="'+servidor+'">SIGUA</a>';
+		var FormatImg = 'image/png';
+		var ZoomMin = 5;
+		var ZoomMax= 21;
+		var ZoomMin = 5;
+		var ZoomMax= 21;
+		var BASE = L.tileLayer(servidor+'/cache2/tms/1.0.0/BASE/webmercator_mod/{z}/{x}/{y}.png', {
+			 tms: true,
+			 transparent: true,
+			 maxZoom: ZoomMax,
+			 minZoom: ZoomMin,
+			 unloadInvisibleTiles: true,
+			 attribution: siguaAttrib,
+		});
+
+
+		var map = L.map("map", {
+		  //drawControl: true,
+		  zoom: 16,
+		  center: [38.38442,-0.5152],
+		  layers: [BASE]
+		});
+
+
+		var MinZoomPlantas = 19;
+		var PB_D_BASICO = L.tileLayer(servidorTiles+'/cache2/tms/1.0.0/PB_D_BASICO/webmercator_mod/{z}/{x}/{y}.png', {
+			 tms: true,
+			 transparent: true,
+			 unloadInvisibleTiles: true,
+			 maxZoom: ZoomMax,
+			 minZoom: MinZoomPlantas,
+			 attribution: siguaAttrib,
+		});
+		PB_D_BASICO.addTo(map);
+
+		var PB_T_CODIGO = L.tileLayer(servidorTiles+'/cache2/tms/1.0.0/PB_T_CODIGO/webmercator_mod/{z}/{x}/{y}.png', {
+			 tms: true,
+			 transparent: true,
+			 unloadInvisibleTiles: true,
+			 maxZoom: ZoomMax,
+			 minZoom: MinZoomPlantas,
+			 attribution: siguaAttrib,
+		});
+		PB_T_CODIGO.addTo(map);			
+		//Fin plantas
+
+/*		
+var helloPopup = L.popup().setContent('Hello World!');
+
+L.easyButton('html-star', function(btn, map){
+  helloPopup.setLatLng(map.getCenter()).openOn(map);
+}).addTo(map); // probably just `map`		
+	
+
+L.easyButton( 'fa-star', function(){
+  alert('you just clicked a font awesome icon');
+}).addTo(map);
+*/	
+
+/*
+var myButtonOptions = {
+      'text': 'MyButton',  // string
+      'iconUrl': '../img/globe.png',  // string
+      'onClick': my_button_onClick,  // callback function
+      'hideText': true,  // bool
+      'maxWidth': 30,  // number
+      'doToggle': false,  // bool
+      'toggleStatus': false  // bool
+}   
+
+var myButton = new L.Control.Button(myButtonOptions).addTo(map);
+
+function my_button_onClick() {
+    console.log("someone clicked my button");
+}
+*/
+
+
+
+
+/*
+var MyControl = L.Control.extend({
+    options: {
+        position: 'topright'
+    },
+
+    onAdd: function (map) {
+        // create the control container with a particular class name
+        var container = L.DomUtil.create('div', 'my-custom-control');
+
+        // ... initialize other DOM elements, add listeners, etc.
+
+        return container;
+    }
+});
+
+map.addControl(new MyControl());
+//If specify your own constructor for the control, you'll also probably want to process options properly:
+var MyControl = L.Control.extend({
+    initialize: function (foo, options) {
+        // ...
+        L.Util.setOptions(this, options);
+    },
+    // ...
+});
+//This will allow you to pass options like position when creating the control instances:
+map.addControl(new MyControl('bar', {position: 'bottomleft'}));
+*/
+
+
+
+
+
+		
+
+
+   var file = 'pano_PB.geojson';
+
+</script>
+<script src="libs/pano_functions.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+

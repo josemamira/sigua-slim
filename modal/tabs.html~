@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIGUA slim Modal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">	
+ 
+	<style>	
+	</style>
+  </head>
+
+  <body>
+	  
+
+<center><a href="#miMapaModal" id="elCodigo" data-value="" role="button" class="btn btn-primary" data-toggle="modal">Abrir tab en modal</a>
+</center>
+
+<div class="modal" id="miMapaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+					  <div class="btn-group" role="group">
+					    <button type="button" class="btn btn-default">Edificios</button>
+					  </div>
+					  <div class="btn-group" role="group">
+					    <button type="button" class="btn btn-default">Dptos/Unidades</button>
+					  </div>
+					  <div class="btn-group" role="group">
+					    <button type="button" class="btn btn-default">Estancia</button>
+					  </div>
+					</div>
+                       
+            </div>
+
+            <div class="modal-body">
+            	<div id="inicio">Modulo de impresión. Esto es el body</div>
+       	
+
+
+			  			<ul class="nav nav-tabs" id="myTab">
+						  <li class="active"><a data-target="#edi1_tab" data-toggle="tab">1.Edificios</a></li>
+						  <li><a data-target="#edi2_tab" data-toggle="tab">2.Configuracion</a></li>
+						  <li><a data-target="#edi3_tab" data-toggle="tab">3.Salida</a></li>
+						</ul>
+			
+						<div class="tab-content">
+						  <div class="tab-pane active" id="edi1_tab">contenido edificios</div>
+						  <div class="tab-pane" id="edi2_tab">contenido configuracion</div>
+						  <div class="tab-pane" id="edi3_tab">contenido salida</div>
+
+						</div>
+
+						
+
+            </div>
+ 
+            <div class="modal-footer">		
+            	esto es el pie
+				                
+            </div>            
+        </div>
+      </div>
+    </div>
+
+	
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script> 
+	
+
+    
+  </body>
+</html>
+
+
+
+
+
+
+

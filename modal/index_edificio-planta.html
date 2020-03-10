@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SIGUA slim Modal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">	
+	<!--
+	<link rel="stylesheet" href="assets/js/bootstrap-3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/js/font-awesome-4.4.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="assets/js/leaflet-0.7.2/leaflet.css">-->
+    
+	<link rel="stylesheet" href="assets/css/app.css"> 
+	
+	<style>	
+		#map { min-height: 350px;}
+		.popover{  z-index:100000000;} 
+		.input-xs, select.input-xs {
+		  height: 20px;
+		  line-height: 20px;
+		}
+		.select-mini {
+		  font-size: 11px;
+		  height: 30px;
+		  width: 175px;
+		}
+	</style>
+
+
+
+  </head>
+
+  <body>
+	  
+
+<center>
+<!-- Para referirse a una estancia. Ej.: 0037P1013 -->
+<!--<a href="#miMapaModal" id="elCodigo" data-value="0037PB016" role="button" class="btn btn-primary" data-toggle="modal">Abrir Mapa en 0037PB016</a>-->
+<!-- Para referirse a un edificio y planta concreto. Por ej.: 0007P2 -->
+<a href="#miMapaModal" id="elCodigo" data-value="0019P2" role="button" class="btn btn-primary" data-toggle="modal">Abrir Mapa en edificio 0019 planta 2 (0019P2)</a>
+<!-- Para referirse a un edificio. Por ej.: 0007 -->
+<!--<a href="#miMapaModal" id="elCodigo" data-value="0005" role="button" class="btn btn-primary" data-toggle="modal">Abrir Mapa en edificio 0005</a>-->
+<!-- Para abrir toda la UA en global -->
+<!--<a href="#miMapaModal" id="elCodigo" data-value="" role="button" class="btn btn-primary" data-toggle="modal">Abrir Mapa UA global</a>--> 
+
+
+</center>
+<div class="modal" id="miMapaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--<div id="myModal" class="modal">-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+
+
+				<table>
+					<tr>
+						<td width="50%">
+							<!-- ayuda -->
+							<button type="button" 
+								id="icoAyuda" 
+								class="btn btn-primary btn-xs active"
+								data-html="true"
+								data-title="Ayuda" 
+								data-content="Muévase con la rueda del ratón para ampliar <i class='fa fa-search-plus'></i> o reducir <i class='fa fa-search-minus'></i> el mapa. Pinche y arrastre para desplazarse <i class='fa fa-hand-paper-o'></i>. Puede automáticamente centrar la vista en un edificio utilizando el desplegable de edificios. <br>   Cuando esté muy cerca de un edificio podrá ver las estancias, y también se activará en la parte inferior el <mark>selector de plantas</mark> (PB,P1,...). Seleccione la planta  que desee ver. <br>Para seleccionar una estancia  simplemente haga clic sobre ella y saldrá una ventana <i class='fa fa-commenting-o'></i> con información adicional. Haga clic en el botón <a href='#' class='bbtn btn-primary btn-xs active' role='button'><i class='fa fa-bolt'></i>&nbsp;Seleccionar estancia</a> para continuar." 
+								data-placement="bottom" data-toggle="popover" 
+								data-container="body" type="button" data-original-title="" data-trigger="hover"	>
+								<i class="fa fa-question-circle"></i>&nbsp;Ayuda
+							</button>					
+						</td>
+						<td width="50%">
+							<!-- titulo -->
+							Mapa de la UA		
+						</td>						
+					</tr>
+				</table>
+
+            </div>
+
+                <div class="modal-body" id="map"></div>
+ 
+            <div class="modal-footer">				
+							<!-- plantas -->
+							<div class="btn-group hide" data-toggle="buttons" id="plantas">
+								<span class="badge">Plantas</span>
+								<label class="btn btn-default btn-xs active"> <input type="radio" name="planta" id="PB" value="PB" checked="true"> PB  </label>
+								<label class="btn btn-default btn-xs"> <input type="radio" name="planta" id="P1" value="P1"> P1  </label>
+								<label class="btn btn-default btn-xs"> <input type="radio" name="planta" id="P2" value="P2"> P2  </label>
+								<label class="btn btn-default btn-xs"> <input type="radio" name="planta" id="P3" value="P3"> P3  </label>
+								<label class="btn btn-default btn-xs"> <input type="radio" name="planta" id="P4" value="P4"> P4  </label>
+								<label class="btn btn-default btn-xs"> <input type="radio" name="planta" id="PS" value="PS"> PS  </label>
+							</div>								
+						</td>
+			
+				
+				                
+            </div>            
+        </div>
+      </div>
+    </div>
+
+
+	 <!-- indicador de trabajando -->
+    <div id="loading" class="hide">
+      <div class="loading-indicator">
+        <div class="progress progress-striped active">
+          <div class="progress-bar progress-bar-info" style="width: 100%"></div>
+        </div>
+      </div>
+    </div>
+	
+	
+	
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script> 
+	
+	
+	  
+	<!--  
+ 	<script src="assets/js/jquery-1.11.0.min.js"></script> 	
+	<script src="assets/js/bootstrap-3.1.1/js/bootstrap.min.js"></script> 	
+	<script src="assets/js/leaflet-0.7.2/leaflet.js"></script>-->
+	<!-- Sigua JS -->	
+	<script src="assets/js/sigua_capas.js"></script>  
+	<script src="assets/js/sigua_main_basico1.js"></script>   
+
+
+
+
+
+
+    
+    
+  </body>
+</html>
+
+
+
+
+
+
+
+<!--

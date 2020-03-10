@@ -1,0 +1,163 @@
+/**
+ * Mostrar ocultar botonera de plantas
+ * */
+	map.on('zoomend', function() {
+		var mapLevel = map.getZoom();
+		if (mapLevel > 18) {			
+			$("#plantas").removeClass().addClass("btn-group show");
+		}
+		else
+		{			
+			$("#plantas").removeClass().addClass("btn-group hide");
+		}
+
+	});
+
+/**
+ * Control de plantas (PB/P1/P2/P3/P4/PS)
+ */ 
+$('input[name="planta"]').change(function () {   
+	var mapLevel = map.getZoom();
+	if (mapLevel > 18) {
+		var planta = $('input[name=planta]:checked').val();
+		var layerTema = eval(planta + "_D_" + "BASICO");
+		var layerLabel = eval(planta + "_T_" + "CODIGO");
+		var layerIconos = eval(planta + "_ICONOS");
+
+		$("input[name='planta']").each(function() {
+            // plantas
+            if ($(this).is(':checked')) {
+				map.addLayer(eval(layerTema));
+				map.addLayer(eval(layerLabel));
+				map.addLayer(eval(layerIconos));
+			} 
+			// para los no checked
+			else {
+				map.removeLayer( eval($(this).val() + "_D_BASICO") );
+				map.removeLayer( eval($(this).val() + "_T_CODIGO") );
+				map.removeLayer( eval($(this).val() + "_ICONOS") );
+			}
+        });
+	} 
+});
+
+
+
+/**
+ * Funcion para cambiar de planta desde un codigo sigua dado
+ */
+	function cambiaPlanta(planta) {
+		//alert(planta);
+		$(eval(planta)).trigger("click"); 
+		var layerTema = eval(planta + "_D_" + "BASICO");
+		var layerLabel = eval(planta + "_T_" + "CODIGO");
+		var layerIconos = eval(planta + "_ICONOS");
+		
+		$("input[name='planta']").each(function() {
+            // plantas
+            if ($(this).is(':checked')) {
+				map.addLayer(eval(layerTema));
+				map.addLayer(eval(layerLabel));
+				map.addLayer(eval(layerIconos));				
+			} 
+			// para los no checked
+			else {			
+				map.removeLayer( eval($(this).val() + "_D_BASICO") );
+				map.removeLayer( eval($(this).val() + "_T_CODIGO") );
+				map.removeLayer( eval($(this).val() + "_ICONOS") );	
+			}
+        });		
+	}
+
+
+/**
+ * EVENTO INFO
+*/ 
+// Evento click para info
+var popup = L.popup();
+
+function infoMapa(e) {
+	
+	// peticion rest
+	var planta = $('input:radio[name=planta]:checked').val();
+	var lat = e.latlng.lat; 
+    var lon = e.latlng.lng; 
+	//var rootURL = servidor+'/apirest/pub/estancia/coordenada/'+planta+'/'+lon+'/'+lat; 	
+	var rootURL = servidor+'/api/pub/estancia/planta/'+planta+'/4326/'+lon+'/'+lat;
+	//http://www.sigua.ua.es/api/pub/estancia/planta/pb/4326/
+	$.getJSON(rootURL,{} ,function(data) {	
+		
+	  if (data.features.length == 0) { // si no ha encontrado nada
+	  } else { // si hay una estancia
+				var popupContent =
+				"<h3>"+ data.features[0].properties.codigo +"</h3>"+
+				"<a href='http://www.openstreetmap.org/?mlat="+lat+"&mlon="+lon+"#map=18/"+lat+"/"+lon+"' target='_blank'><img  src='assets/img/logo_osm.png' width='32'></a>&nbsp;"+						
+				"<a href='http://maps.google.com/maps?q="+lat+","+lon+"' target='_blank'><img  src='assets/img/logo_gmaps.png' width='32'></a>&nbsp;"+						
+				"<a href='http://www.twitter.com/home?status=Ubicación en SIGUA http://www.sigua.ua.es/index.html?id="+ data.features[0].properties.codigo +"' target='_blank'><img src='https://lh5.googleusercontent.com/-xZVxH6CsUaQ/UefWwgi8o3I/AAAAAAAAEdk/reo5XS6z8-8/s32-no/twitter.png'></a>&nbsp;"+
+				"<a href='https://www.facebook.com/sharer/sharer.php?s=100&p[title]=SIGUA - Ubicación&p[url]=http://www.sigua.ua.es/index.html?id="+ data.features[0].properties.codigo +"' &p[summary]=Ubicación en SIGUA&p[images][0]=http://iig.ua.es/es/geomatica/imagenes/-gestadm/twitter_medi.png' target='_blank'><img  src='https://lh3.googleusercontent.com/-H8xMuAxM-bE/UefWwJr2vwI/AAAAAAAAEdY/N5I41q19KMk/s32-no/facebook.png'></a>&nbsp;"+
+				"<a href='https://plus.google.com/share?url=http://www.sigua.ua.es/index.html?id="+ data.features[0].properties.codigo +"' target='_blank'><img src='https://lh5.googleusercontent.com/-5Q7Sj0SXhOA/UefWwcrnZ-I/AAAAAAAAEdg/auK3wqGCbZE/s32-no/googleplus.png'></a></h3>"+
+				"<table class='table table-condensed'>"+
+				"<tr class='sucess'><td><small>Actividad</small></td><td>"+ data.features[0].properties.nombre_actividad +"</td></tr>"+
+				"<tr class='active'><td><small>Unidad/dpto</small></td><td>"+ data.features[0].properties.nombre_departamentosigua +"</td></tr>";
+				if (data.features[0].properties.denominacion == null) {
+					popupContent += "<tr class='sucess'><td><small>Denominacion</small></td><td><i>sin denominación</i></td></tr>"
+				} else { 
+					popupContent += "<tr class='sucess'><td><small>Denominacion</small></td><td>"+data.features[0].properties.denominacion+"</td></tr>";
+				}
+				popupContent +="<tr class='active'><td><small>Superficie</small></td><td>"+ data.features[0].properties.superficie +" m²</td></tr>";
+				// ocupantes	
+				if ( data.features[0].properties.ubicaciones == null ){ // sin
+					popupContent += "<tr class='sucess'><td><small>Ocupantes</small></td><td>Sin ocupantes</td></tr></table>"+
+									"<button type='button' id='botonEstancia' class='btn btn-primary btn-xs active' "+
+									"onclick=\"popup._close(); showCodigo('"+data.features[0].properties.codigo+"'); \"><i class='fa fa-bolt'></i>&nbsp;Seleccionar estancia</button>&nbsp;";
+
+				} else { // sí hay personas
+					var ubicacionesArr = data.features[0].properties.ubicaciones.substr(1);
+					ubicacionesArr = ubicacionesArr.substr(0,ubicacionesArr.length - 1);// 
+					ubicacionesArr = ubicacionesArr.split(",");
+					popupContent +="<tr class='sucess'><td><small>Ocupantes</small></td><td>"+ubicacionesArr.length+"</td></tr></table>"+
+								"<button type='button' id='botonEstancia' class='btn btn-primary btn-xs active' "+
+								"onclick=\"popup._close(); showCodigo('"+data.features[0].properties.codigo+"'); \"><i class='fa fa-bolt'></i>&nbsp;Seleccionar estancia</button>&nbsp;";
+				}
+			
+	
+		popup
+         .setLatLng(e.latlng)
+         .setContent(popupContent)
+         .openOn(map); 
+	  }
+	});      
+}
+map.on('click', infoMapa);
+
+// Muestra la ayuda
+$('#icoAyuda').popover();
+
+// Función que recibe el código de estancia
+function showCodigo( codigo ) {
+	alert("Hola, has seleccionado la estancia con codigo " + codigo );
+}
+
+
+
+$( "#edificios" ).focus(function() {
+	$("#loading").removeClass().addClass("btn-group show");
+	var url = "http://www.sigua.ua.es/api/pub/edificio/all/items";
+	var peticion = $.getJSON( url)
+    .done(function( data ) {
+		$.each(data, function(i,item) {
+			  $("#edificios").prepend('<option value="'+item.bbox+'">' + item.id + ' ' + item.nombre + '</option>');	 
+		});
+    });
+    peticion.complete(function() {
+	  //$("#edificios").simulate('mousedown');
+	  /*var event;
+      event = document.createEvent('MouseEvents');
+      event.initMouseEvent('mousedown', true, true, window);
+      $("#edificios").dispatchEvent(event);*/
+	  $("#loading").removeClass().addClass("btn-group hide");
+	});        
+});
+
+
+
